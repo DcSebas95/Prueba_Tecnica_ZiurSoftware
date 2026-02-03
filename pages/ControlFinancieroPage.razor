@@ -1,0 +1,42 @@
+@page "/controlfinanciero"
+@using ZiurBlazorTest.Models
+@using ZiurBlazorTest.Services
+@inject ControlfinancieroService ControlService
+
+<h3>Control Financiero</h3>
+
+@if (documentos == null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Descripción</th>
+                <th>Activa</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var d in documentos)
+            {
+                <tr>
+                    <td>@d.Codigo</td>
+                    <td>@d.Descripcion</td>
+                    <td>@(d.VActiva ? "Sí" : "No")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Controlfinanciero>? documentos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        documentos = await ControlService.ObtenerAsync();
+    }
+}
